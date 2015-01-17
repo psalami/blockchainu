@@ -2,18 +2,84 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Pay</title>
+    <title>Enter Access Token</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+        var CONTENT_PRICE = {{ content_price }};
+    </script>
 </head>
 <body>
+    {% if insufficient %}
+        <b>The access token you provided does not have a sufficient balance. Please generate a new address below and
+        make a payment to access the content.</b><p>
+    {% endif %}
+    <h2>I already have an access token</h2>
     This page requires an access token. Please enter your access token below to continue:<br/>
     <input type="text" id="token"></input>
     <button id="submit_token">Submit</button>
+    <p></p>
+
+    <h2>I don't have an access token yet</h2>
+    <button id="get_address">Show Payment Address</button>
+
+    <div id="payment_pending" style="display: none">
+        <h3>Please send <span id="content_price"></span> BTC to the following address:</h3>
+        <div id="payment_address"></div><br/>
+        This page will refresh with your access token once payment is confirmed.<br/>
+        Waiting for payment...<br/>
+        <img src="/static/spiffygif_30x30.gif">
+
+    </div>
+
+    <div id="payment_received" style="display:none">
+        <h3>Payment Received!</h3>
+        Your access token is <span id="access_token" style="font-weight: bold"></span>. Please save your token for future use.<br/>
+        <button id="access_paid_content">Access Content</button>
+
+    </div>
+
     <script>
         $("#submit_token").click(function(){
-            window.location = '/?token=' + $("#token").val();
+            window.location.href = '/?token=' + $("#token").val();
         });
 
+        $("#access_paid_content").click(function(){
+            window.location.href = '/?token=' + $("#access_token").text();
+        });
+
+        $("#get_address").click(function(){
+
+            $.getJSON("/get_address", function(res){
+                if(res.status != "success"){
+                    console.log("ERROR generating new address.");
+                    return;
+                }
+                var address = res["data"]["address"];
+                $("#payment_address").text(address);
+                $("#content_price").text(CONTENT_PRICE);
+                $("#access_token").text(res["data"]["label"]);
+                $("#payment_pending").show();
+                $("#get_address").prop("disabled", true);
+                var timer = setInterval(function(){
+                     $.getJSON("/get_balance?address=" + address, function(res) {
+                         if (res.status != "success") {
+                             console.log("ERROR getting balance.");
+                             return;
+                         }
+                         var balance = res["data"]["available_balance"];
+                         console.log("current balance: " + balance);
+                         if (balance >= CONTENT_PRICE) {
+                             clearInterval(timer);
+                             $("#payment_pending").hide();
+                             $("#payment_received").show();
+                         }else{
+                             console.log("balance is not sufficient...");
+                         }
+                     });
+                }, 5000);
+
+            });
+        });
     </script>
 </body>
 </html>

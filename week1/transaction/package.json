@@ -1,0 +1,9 @@
+{
+  "name": "bitcoin_transaction_example",
+  "description": "Sample code to create a Bitcoin wallet and send a transaction",
+  "version": "0.0.1",
+  "devDependencies": {
+    "bitcoinjs-lib": "*",
+    "chain-node": "*"
+  }
+}

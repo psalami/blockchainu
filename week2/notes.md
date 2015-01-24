@@ -79,3 +79,51 @@ OP_RETURN <up to 40 bytes of data>
 ### proof of existence
 insert a document into the blockchain in the OP_RETURN field and make a small transaction.  
 see http://www.proofofexistence.com
+
+
+
+#Blockchain blocks with Reddit's Ryan X. Charles
+
+BitTorrent - how to download a piece of a file and know that it is the correct piece?
+
+Hash data one time:
+* [data1][data2][data3][data4]
+* [hash]
+* ...must download all pieces to confirm hash
+* each piece get checksummed
+
+## Merkle Trees
+
+Hash data in pieces:
+* [data1][data2][data3][data4]
+* [hash1][hash2][hash3][hash4]
+* [hash1'] (hash1 and hash2 from above line concatenated together and hashed)[hash2'] (hash3 and hash4 concatenated together and hashed)
+* [hash1''] (hash1' and hash2' concatenated and hashed)
+* verified in O(log(N))
+
+transactions in blocks are stored in this way
+
+## Target
+
+proof of work
+
+* Hash that next block must be lower than
+* "Difficulty" is inverse of traget
+* Compact 4 byte floating point representation of difficulty stored in blocks as "bits"
+
+## Block Headers
+* **[version][prevblockhash][merkleroot][time][bits][nonce]**
+
+## Transactions 
+* **[magicnum][blocksize][blockheader]...**
+
+## Validating a Block
+
+evalScript(scriptsig, previous tx scriptpubkey)
+
+# Homework
+
+## optional project
+interactive graphical script interpreter
+
+

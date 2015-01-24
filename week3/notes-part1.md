@@ -107,12 +107,12 @@ register or join a team http://bit.ly/bcuprojects
  * make post fact auditing easier?
  * make other developers more likely to adopt due to blockchain's openness
 
-moonshot: pabble.io currency with decentralized reserve bank
+moonshot: i.e. pabble.io currency with decentralized reserve bank
 
 
 ### projects that need assistance
 * micropayments for wifi access
-* multisig to connect bitcoin to other payment networks in node.js - Steven Zeiler
+* multisig to connect bitcoin to other payment networks in node.js - Steven Zeiler from codius
 
 
 

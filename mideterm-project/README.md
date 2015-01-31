@@ -2,7 +2,7 @@
 
 A custom wallet service that shows a balance that includes only coins from a trusted source. This enables many interesting use-cases, for example allowing organizations to issue tokens for volunteer work. Other use-cases include public reviews and fraud prevention. The web of trust ensures that the tokens must be earned and cannot be transferred. 
 
-## Technical Implementaiton
+## Technical Implementation
 
 We propose a scheme whereby a whitelister can write a list of trusted addresses to the blockchain using OP_RETURN transactions. Each client wallet configures the address of a whitelister. When the wallet reports the user's balance, the wallet checks the senders of its unspent outputs; it traverses the transactions in the blockchain to find all OP_RETURN transactions from the declared whitelister. Certain OP_RETURN transactions will contain a whitelisted address. The reported balance will include only amounts from the unspent outputs where the sender is in the set of whitelisted addresses.
 

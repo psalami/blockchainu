@@ -1,2 +1,0 @@
-testnet address: n336gSgNGHpyKzNngnvBvLd5SQoxQNm8Ap
-testnet faucet transaction: 9f1588b85debfe9a1090eaf23123043da262eb892b9987c272f0c0af8e418037
